@@ -1,0 +1,29 @@
+# ==============================================================================
+# Docker Compose - Ambiente de Desenvolvimento CogniCore
+# Autor: Deivid Lucas
+# Versão: 1.1
+# Descrição: Lendo variáveis de ambiente do arquivo .env para maior segurança
+#            e flexibilidade na configuração do banco de dados.
+# ==============================================================================
+
+services:
+  # Define o serviço do nosso banco de dados
+  postgres-db:
+    image: postgres:15
+    container_name: cognicore_postgres_db
+    restart: always
+    
+    # Lendo variáveis de ambiente do arquivo .env para configurar o banco
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    
+    # Mapeamento de portas
+    ports:
+      - "${DB_PORT}:5432"
+      
+    # Volumes para persistência de dados
+    volumes:
+      - ./.data/postgres:/var/lib/postgresql/data
+
